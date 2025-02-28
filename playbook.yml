@@ -1,0 +1,20 @@
+- name: Deploy Java App
+  hosts: web
+  become: yes
+  tasks:
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Start Docker Service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull Docker Image
+      command: docker pull your-dockerhub-username/java-app
+
+    - name: Run Java App Container
+      command: docker run -d -p 8080:8080 --name java-app your-dockerhub-username/java-app
